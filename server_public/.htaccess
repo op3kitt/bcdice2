@@ -1,0 +1,35 @@
+<IfModule mod_rewrite.c>
+
+	RewriteEngine on
+
+	#AllowOverride All
+	#RewriteBase /wherever/base/is
+
+  # Make sure directory listing is disabled
+	#Options +FollowSymLinks -Indexes
+
+	<IfModule mod_fcgid.c>
+        RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+        #RewriteRule ^(.*)$ index.rb/$1 [QSA,L]
+	</IfModule>
+
+	<IfModule !mod_fcgid.c>
+
+		# for normal Apache installations
+		<IfModule mod_php5.c>
+			RewriteRule ^(.*)$ index.php/$1 [L]
+		</IfModule>
+
+		#<IfModule mod_mruby.c>
+		#	RewriteRule ^(.*)$ index.rb/$1 [L]
+		#</IfModule>
+
+		# for Apache FGCI installations
+		<IfModule !mod_php5.c>
+			RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+			#RewriteRule ^(.*)$ index.rb/$1 [QSA,L]
+		</IfModule>
+
+	</IfModule>
+
+</IfModule>
